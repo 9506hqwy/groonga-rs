@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "groonga-sys",
+]
+
+[profile.release]
+strip = "symbols"
+lto = true
