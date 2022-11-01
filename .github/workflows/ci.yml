@@ -35,7 +35,7 @@ jobs:
         ./configure --with-zlib --with-lz4 --with-zstd
         make -j$(grep '^processor' /proc/cpuinfo | wc -l)
         sudo make install
-        sudo ldconfig
+        echo "LD_LIBRARY_PATH=/usr/local/lib" >> $GITHUB_ENV
     - name: Build
       run: cargo build --verbose
     - name: Run tests
