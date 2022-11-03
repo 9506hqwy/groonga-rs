@@ -77,11 +77,13 @@ mod tests {
         let ret = unsafe { grn_obj_set_value(ctx, column, id, &mut value_obj, GRN_OBJ_SET as i32) };
         assert_eq!(grn_rc::GRN_SUCCESS, ret);
 
+        let ret = unsafe { grn_obj_close(ctx, db) };
+        assert_eq!(grn_rc::GRN_SUCCESS, ret);
+
         let ret = unsafe { grn_ctx_close(ctx) };
         assert_eq!(grn_rc::GRN_SUCCESS, ret);
 
-        // TODO: fix (exit code: 0xc0000005, STATUS_ACCESS_VIOLATION)
-        // let ret = unsafe { grn_fin() };
-        // assert_eq!(grn_rc::GRN_SUCCESS, ret);
+        let ret = unsafe { grn_fin() };
+        assert_eq!(grn_rc::GRN_SUCCESS, ret);
     }
 }
