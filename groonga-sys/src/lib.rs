@@ -77,6 +77,49 @@ mod tests {
         let ret = unsafe { grn_obj_set_value(ctx, column, id, &mut value_obj, GRN_OBJ_SET as i32) };
         assert_eq!(grn_rc::GRN_SUCCESS, ret);
 
+        let default_column_name = CString::new("value").unwrap();
+        let mut default_column = unsafe { zeroed::<grn_obj>() };
+        unsafe { grn_text_init(&mut default_column, 0) };
+        unsafe {
+            grn_text_put(
+                ctx,
+                &mut default_column,
+                default_column_name.as_ptr(),
+                default_column_name.as_bytes().len(),
+            )
+        };
+
+        let query = unsafe { grn_expr_create(ctx, null(), 0) };
+        assert_eq!(false, query.is_null());
+
+        let var = unsafe { grn_expr_add_var(ctx, query, null(), 0) };
+        assert_eq!(false, var.is_null());
+
+        unsafe { grn_record_init(var, 0, grn_obj_id(ctx, table)) };
+
+        let keyword = CString::new("hello").unwrap();
+        let ret = unsafe {
+            grn_expr_parse(
+                ctx,
+                query,
+                keyword.as_ptr(),
+                keyword.as_bytes().len() as u32,
+                &mut default_column,
+                grn_operator::GRN_OP_MATCH,
+                grn_operator::GRN_OP_AND,
+                GRN_EXPR_SYNTAX_QUERY,
+            )
+        };
+        assert_eq!(grn_rc::GRN_SUCCESS, ret);
+
+        let results =
+            unsafe { grn_table_select(ctx, table, query, null_mut(), grn_operator::GRN_OP_OR) };
+        assert_eq!(grn_rc::GRN_SUCCESS, unsafe { (*ctx).rc });
+        assert_eq!(1, unsafe { grn_table_size(ctx, results) });
+
+        let ret = unsafe { grn_expr_close(ctx, query) };
+        assert_eq!(grn_rc::GRN_SUCCESS, ret);
+
         let ret = unsafe { grn_obj_close(ctx, db) };
         assert_eq!(grn_rc::GRN_SUCCESS, ret);
 
