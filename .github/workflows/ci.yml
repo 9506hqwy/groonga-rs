@@ -25,22 +25,22 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y \
-	    wget \
-	    tar \
-	    pkg-config \
-	    clang-14 \
-	    build-essential \
-	    zlib1g zlib1g-dev \
-	    liblz4-1 \
-	    liblz4-dev \
-	    libzstd1 \
-	    libzstd-dev \
-	    libmpack0 \
-	    libmsgpack-dev \
-	    libzmq5 \
-	    libzmq3-dev \
-	    libevent-dev \
-	    libmecab-dev
+            wget \
+            tar \
+            pkg-config \
+            clang-14 \
+            build-essential \
+            zlib1g zlib1g-dev \
+            liblz4-1 \
+            liblz4-dev \
+            libzstd1 \
+            libzstd-dev \
+            libmpack0 \
+            libmsgpack-dev \
+            libzmq5 \
+            libzmq3-dev \
+            libevent-dev \
+            libmecab-dev
     - name: Install Groonga (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: |
