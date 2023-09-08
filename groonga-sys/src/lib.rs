@@ -17,19 +17,19 @@ mod tests {
         assert_eq!(grn_rc::GRN_SUCCESS, ret);
 
         let ctx = unsafe { grn_ctx_open(0) };
-        assert_eq!(false, ctx.is_null());
+        assert!(!ctx.is_null());
 
         let cmd_ver = unsafe { grn_ctx_get_command_version(ctx) };
         assert_eq!(grn_command_version::GRN_COMMAND_VERSION_1, cmd_ver);
 
         let db = unsafe { grn_db_create(ctx, null(), zeroed()) };
-        assert_eq!(false, db.is_null());
+        assert!(!db.is_null());
 
         let key_type = unsafe { grn_ctx_at(ctx, grn_builtin_type::GRN_DB_SHORT_TEXT as u32) };
-        assert_eq!(false, key_type.is_null());
+        assert!(!key_type.is_null());
 
         let value_type = unsafe { grn_ctx_at(ctx, grn_builtin_type::GRN_DB_TEXT as u32) };
-        assert_eq!(false, value_type.is_null());
+        assert!(!value_type.is_null());
 
         let table = unsafe {
             grn_table_create(
@@ -42,7 +42,7 @@ mod tests {
                 null_mut(),
             )
         };
-        assert_eq!(false, table.is_null());
+        assert!(!table.is_null());
 
         let cname = CString::new("value").unwrap();
         let column = unsafe {
@@ -56,7 +56,7 @@ mod tests {
                 value_type,
             )
         };
-        assert_eq!(false, column.is_null());
+        assert!(!column.is_null());
 
         let key = CString::new("key").unwrap();
         let id = unsafe {
@@ -90,10 +90,10 @@ mod tests {
         };
 
         let query = unsafe { grn_expr_create(ctx, null(), 0) };
-        assert_eq!(false, query.is_null());
+        assert!(!query.is_null());
 
         let var = unsafe { grn_expr_add_var(ctx, query, null(), 0) };
-        assert_eq!(false, var.is_null());
+        assert!(!var.is_null());
 
         unsafe { grn_record_init(var, 0, grn_obj_id(ctx, table)) };
 
