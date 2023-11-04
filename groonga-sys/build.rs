@@ -34,7 +34,7 @@ fn main() {
         .header(macro_header.to_str().unwrap())
         .clang_arg(format!("-I{}", include_path.display()))
         .rustified_enum(".*")
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Unbale to generate bindings");
 
